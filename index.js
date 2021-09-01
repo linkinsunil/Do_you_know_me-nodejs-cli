@@ -1,37 +1,35 @@
+const chalk = require("chalk")
 var readlineSync = require("readline-sync");
 var score = 0;
 
-var userName = readlineSync.question("Hi, Please enter your name to begin: ")
-console.log("Welcome " + userName + "! Let's begin the quiz - ");
+var userName = readlineSync.question("Please enter your name to begin: ")
+console.log("Welcome " + chalk.green(userName + "!")+ " Let's begin the quiz - ");
 console.log("-----------------------")
 
 function myQuiz(question, answer){
 
-  var userQue = readlineSync.question(question);
+    var question = readlineSync.question(chalk.blue(question));
+    if (question.toUpperCase() === answer.toUpperCase()) {
+      console.log(chalk.green("Correct"))
+      score+=2;
+    } else {
+      console.log("Wrong!")
+    }
+    console.log("Your score is ", chalk.green(score));
+    console.log("---------------------------------------");
 
-  if (userQue.toUpperCase() === answer.toUpperCase()) {
-    console.log("WOAH! You know it! Its Correct.")
-    score++;
-  } else {
-    console.log("OOPS! You got it wrong!")
-  }
-  console.log("Your score is ", score);
-  console.log("---------------------------------------");
-  // if (score === 5){
-  // console.log("CONGRATULATIONS! You know me like nobody else!")
-  // }
 }
 
-//Array of objests to be used for the set of arguments in function
+//Array of objects to be used for the set of arguments in function
 var questions = [{
-  question : "What is my full DOB? ",
-  answer : "22 may 1989"
+  question : "What is my DOB? ",
+  answer : "22 may"
 }, {
-  question : "Which one I use most? Facebook, Twitter, Instagram, Linkedin ",
+  question : "Which one I use most? Facebook, Twitter, Instagram, Linkedin? ",
   answer : "linkedin"
 }, {
   question : "Where do I live? ",
-  answer : "varanasi"
+  answer : "pune"
 }, {
   question : "Do I like watching web-series? ",
   answer : "yes"
@@ -41,25 +39,34 @@ var questions = [{
 }
 ];
 
-var highScore = [{
+var highScores = [{
   name: "Sunil",
-  myscore: "5"
+  highScore: "10"
 }, {
   name: "Rekha",
-  myscore: "4"
+  highScore: "8"
 }]
 
-for (var i=0; i<questions.length; i++) {
+for (let i=0; i<questions.length; i++) {
   myQuiz(questions[i].question, questions[i].answer);
 }
 
-// for (var j=0; j<highScore.length; j++) {
-  if (score == highScore[0].myscore) {
-    console.log("Out of 5, your score is ", score)
-    console.log("Congratulations! You're a top scorer! You know Sunil like nobody else.")
-  } else {
-    console.log("Out of 5, your score is", score)
+if (score >= highScores[1].highScore) {
+    console.log(chalk.green("Congratulations!")+" You're one of the top scorers!. Please send me your score screenshot to update it in top scorers list.")
+ } else {
     console.log("Looks like you don't know Sunil well!!!")
     console.log("Try again.")
+}
+
+
+console.log("Your highest score is ", score)
+console.log("---------------------------------------");
+console.log("Checkout the top-scorers in this game:")
+
+function scorers(){
+  for(let i=0; i<highScores.length; i++){
+    console.log(chalk.bgRed(highScores[i].highScore, highScores[i].name))
   }
-// }
+}
+
+scorers(highScores);
